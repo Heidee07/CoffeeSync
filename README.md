@@ -4,20 +4,20 @@ CoffeeSync es un sistema de Punto de Venta (POS) web diseñado para cafeterías.
 
 ## Características Principales
 <ul>
-  <li>**Seguridad por Roles (RBAC):** Autenticación mediante cookies con accesos restringidos para `Administrador` (gestión del catálogo) y `Barista` (operación de ventas).</li>
-  <li>**Flujo de Ventas Dinámico:** Sistema de carrito de compras manejado en sesión para una creación de órdenes rápida y fluida.</li>
-  <li>**Cálculo de Pagos:** Módulo de cobro automatizado con cálculo de cambio en tiempo real.</li>
-  <li>**Tickets de Compra:** Generación de comprobantes de pago optimizados para impresoras térmicas (listos para imprimir o guardar como PDF).</li>
-  <li>**Gestión de Catálogo:** Operaciones CRUD completas para categorías y productos con control de disponibilidad.</li>
-  <li>**Diseño UI/UX:** Interfaz responsiva estilizada con una paleta de colores orgánica, componentes personalizados y tablas de datos avanzadas.</li>
+  <li><strong>Seguridad por Roles (RBAC):</strong> Autenticación mediante cookies con accesos restringidos para <code>Administrador</code> (gestión del catálogo) y <code>Barista</code> (operación de ventas).</li>
+  <li><strong>Flujo de Ventas Dinámico:</strong> Sistema de carrito de compras manejado en sesión para una creación de órdenes rápida y fluida.</li>
+  <li><strong>Cálculo de Pagos:</strong> Módulo de cobro automatizado con cálculo de cambio en tiempo real.</li>
+  <li><strong>Tickets de Compra:</strong> Generación de comprobantes de pago optimizados para impresoras térmicas (listos para imprimir o guardar como PDF).</li>
+  <li><strong>Gestión de Catálogo:</strong> Operaciones CRUD completas para categorías y productos con control de disponibilidad.</li>
+  <li><strong>Diseño UI/UX:</strong> Interfaz responsiva estilizada con una paleta de colores orgánica, componentes personalizados y tablas de datos avanzadas.</li>
 </ul>
 
 ## Stack Tecnológico
 <ul>
-  <li>**Backend:** C#, ASP.NET Core MVC</li>
-  <li>**Base de Datos:** SQL Server, Entity Framework Core</li>
-  <li>**Frontend:** Vistas Razor, HTML5, CSS, Bootstrap</li>
-  <li>**Herramientas Adicionales:** jQuery, AJAX, DataTables, Select2 y Bootstrap Icons</li>
+  <li><strong>Backend:</strong> C# y ASP.NET Core MVC.</li>
+  <li><strong>Base de Datos:</strong> SQL Server y Entity Framework Core.</li>
+  <li><strong>Frontend</strong>: Vistas Razor, HTML5, CSS y Bootstrap.</li>
+  <li><strong>Herramientas Adicionales:</strong> jQuery, AJAX, DataTables, Select2 y Bootstrap Icons.</li>
 </ul>
 
 ## Vistas del Sistema
