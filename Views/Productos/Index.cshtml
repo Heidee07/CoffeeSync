@@ -1,0 +1,86 @@
+﻿@model IEnumerable<CoffeeSync.Models.Producto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/index.css" />
+}
+
+<h1 class="txt-color-bg-light">Productos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-lg me-2"></i>
+        Crear Nuevo Producto
+    </a>
+</p>
+
+<div class="shadow div-style">
+    <div class="p-3">
+        <table id="TablaProductos" class="table table-light-primary table-striped table-hover align-middle mb-0 nowrap tabla-datatable dataTables_wrapper">
+            <thead>
+                <tr>
+                    <th class="text-center" style="width: 5rem;">Imagen</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Precio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Disponible)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Categoria)
+                    </th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <img src="@(string.IsNullOrEmpty(item.UrlImagen) ? "/images/producto-default.png" : item.UrlImagen)"
+                                 alt="@item.Nombre"
+                                 class="rounded-circle shadow-sm"
+                                 style="width: 50px; height: 50px; object-fit: cover; background-color: #F8F5F2;" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td class="txt-primary">
+                            $@Html.DisplayFor(modelItem => item.Precio)
+                        </td>
+                        <td>
+                            @if (item.Disponible)
+                            {
+                                <span class="badge" style="background-color: #6D7B45;">Sí</span>
+                            }
+                            else
+                            {
+                                <span class="badge" style="background-color: #9D5817;">No</span>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Categoria.Nombre)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-light-primary btn-sm border rounded-3 align-middle me-3" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-light-yellow btn-sm border rounded-3 align-middle me-3" title="Ver">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-light-orange btn-sm border rounded-3 align-middle me-3" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

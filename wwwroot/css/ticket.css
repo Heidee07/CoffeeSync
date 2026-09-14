@@ -1,0 +1,48 @@
+﻿body {
+    font-family: 'Courier New', Courier, monospace;
+    width: 300px; /* Ancho de impresora térmica */
+    margin: 0 auto;
+    color: #000;
+    padding: 20px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+hr {
+    border-top: 1.5px dashed #000;
+    margin: 15px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 4px 0;
+}
+
+.btn-volver {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+    padding: 12px;
+    background-color: #6D7B45;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}

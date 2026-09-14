@@ -1,0 +1,375 @@
+﻿@model CoffeeSync.Models.Orden
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/crearOrden.css" />
+}
+
+<div class="txt-color-bg-light">
+    <h1>Crear Orden</h1>
+    <h6>Selecciona los productos, agrega al carrito y finaliza la orden.</h6>
+</div>
+
+
+<div class="row m-3 txt-color-bg-light">
+
+    <div class="col-auto col-style col-prod shadow align-self-start">
+        <form action="/Ordenes/AgregarAlCarrito" method="post">
+            <div class="form-group">
+                <label name="CategoriaId" class="control-label"></label>
+                <button type="button" class="btn btn-outline-yellow m-1 rounded-pill btn-categoria active">Mostrar Todos</button>
+                @foreach (var item in ViewBag.ListaCategorias)
+                {
+                    <button type="button" class="btn btn-outline-orange m-1 rounded-pill btn-categoria">@item.Nombre</button>
+                }
+                <span name="CategoriaId" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">                
+                <label name="ProductoId" class="control-label">
+                    <h4>Producto</h4>
+                </label>
+                <select id="buscadorProductos" name="ProductoId" class="form-control">
+                    @foreach (var item in ViewBag.ListaProductos)
+                    {
+                        <option value="@item.Id" data-categoria="@item.Categoria.Nombre">@item.Nombre</option>
+                    }
+                </select>
+                <span name="ProductoId" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <label name="Cantidad" class="control-label">
+                    <h4>Cantidad</h4>
+                </label>
+                <div class="d-flex align-items-center border p-1" style="width: fit-content; background-color: white; border-color: #E8E4D6 !important; border-radius: 0.5rem;">
+
+                    <!-- Botón Restar -->
+                    <button type="button" id="btn-restar" class="btn btn-cantidad rounded-circle d-flex justify-content-center align-items-center">
+                        <strong>-</strong>
+                    </button>
+
+                    <!-- Input -->
+                    <input type="number" id="input-cantidad" name="Cantidad" value="1" min="1" class="input-cantidad bg-transparent form-control border-0 text-center fw-bold fs-5 mx-2" readonly />
+
+                    <!-- Botón Sumar -->
+                    <button type="button" id="btn-sumar" class="btn btn-cantidad rounded-circle d-flex justify-content-center align-items-center">
+                        <strong>+</strong>
+                    </button>
+                </div>
+                <span name="Cantidad" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary btn-agCarrito">
+                    <i class="bi bi-cart-plus me-2"></i> Agregar al Carrito
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="col-auto col-style col-carrito shadow">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0">
+                Carrito <i class="bi bi-cart4 txt-primary"></i>
+            </h4>
+            @if (ViewBag.Carrito != null && ViewBag.Carrito.Count > 0)
+            {
+                <a asp-action="CancelarOrden" class="btn btn-sm btn-outline-orange"
+                   onclick="sessionStorage.removeItem('nombreBorrador'); return confirm('¿Estás seguro de que deseas cancelar toda la orden?');">
+                    <i class="bi bi-trash3 me-1"></i> Vaciar
+                </a>
+            }
+        </div>
+
+        <div class="table-responsive">
+            <table class="table txt-color-bg-light">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if ((ViewBag.Carrito).Count == 0)
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center py-5">
+                                <img src="~/images/carrito-vacio.png" style="width: 30%;" />
+                                <h5 class="mt-3 fw-bold" style="color: #401208;">El carrito está vacío</h5>
+                                <p class="text-muted">Agrega productos solicitados por el cliente.</p>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in ViewBag.Carrito)
+                        {
+                            var listaProductos = ViewBag.ListaProductos as IEnumerable<CoffeeSync.Models.Producto>;
+                            var productoActual = listaProductos?.FirstOrDefault(p => p.Id == item.ProductoId);
+
+                            var nombreCategoria = productoActual?.Categoria?.Nombre;
+                            var precio = productoActual?.Precio ?? 0;
+                            var subtotal = precio * item.Cantidad;
+
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="d-flex align-items-center">
+                                        <img src="@(string.IsNullOrEmpty(productoActual?.UrlImagen) ? "/images/producto-default.png" : productoActual.UrlImagen)"
+                                             alt="@item.ProductoNombre"
+                                             class="rounded-circle shadow-sm me-3"
+                                             style="width: 50px; height: 50px; object-fit: cover; background-color: #F8F5F2;" />
+
+                                        <div>
+                                            <span class="txt-primary fw-bolder">@item.ProductoNombre</span> <br />
+                                            <small class="text-muted">@nombreCategoria</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <div class="d-flex align-items-center border rounded-pill" style="width: fit-content; border-color: #E8E4D6 !important; overflow: hidden;">
+                                        <!-- Botón Restar -->
+                                        <a asp-route-productoId="@item.ProductoId" asp-action="RestarCantidad" class="btn-sumar-restar text-decoration-none d-flex justify-content-center align-items-center">
+                                            <strong>-</strong>
+                                        </a>
+
+                                        <!-- Cantidad -->
+                                        <span class="d-flex justify-content-center align-items-center fw-bold" style="width: 2.2rem; height: 2rem; color: #401208; background-color: white;">
+                                            @item.Cantidad
+                                        </span>
+
+                                        <!-- Botón Sumar -->
+                                        <a asp-route-productoId="@item.ProductoId" asp-action="SumarCantidad" class="btn-sumar-restar text-decoration-none d-flex justify-content-center align-items-center">
+                                            <strong>+</strong>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td class="align-middle fw-semibold txt-primary">
+                                    $@subtotal.ToString("0.00")
+                                </td>
+                                <td class="align-middle">
+                                    <a asp-route-productoId="@item.ProductoId" asp-action="EliminarDelCarrito" class="btn btn-light btn-sm txt-primary border rounded-3 align-middle">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tbody class="table-group-divider">
+                <td asp-action="CalcularTotal" colspan="4" class="text-end py-3">
+                    <span class="h5 me-2">Total:</span>
+                    <span class="h4 fw-bold txt-primary">$@ViewBag.Total</span>
+                </td>
+                </tbody>
+            </table>
+        </div>        
+
+        <form asp-action="Create" id="form-crearOrden" class="mt-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NombreCliente" class="control-label">
+                    <h4>Nombre del Cliente</h4>
+                </label>
+                <div class="position-relative">
+                    <i class="bi bi-person position-absolute text-muted" style="left: 1rem; top: 50%; transform: translateY(-50%); font-size: 1.2rem;"></i>
+                    <input asp-for="NombreCliente" class="form-control" style="padding-left: 2.8rem;" placeholder="Ingresa el nombre del cliente" />
+                </div>               
+                <span asp-validation-for="NombreCliente" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <button type="button" id="btn-crearOrden" class="btn btn-primary w-100" disabled>
+                    <i class="bi bi-cart-check me-2"></i> Crear Orden
+                </button>
+            </div>
+        </form>
+        
+    </div>
+</div>
+
+<div class="row div-style m-3 shadow txt-color-bg-light" id="div-cobro" hidden>
+    <h4>Cobro</h4>
+    <hr />
+    <form id="form-cobro" action="/Ordenes/Cambio" method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h6 class="control-label fw-bold">Monto Recibido</h6>
+                    <div class="input-group mb-4">
+                        <span class="input-group-text">$</span>
+                        <input name="Dinero" type="text" class="form-control" />
+                        <span class="input-group-text">.</span>
+                        <input name="Centavos" type="text" class="form-control" value="00" />
+                        <input name="Total" value="@ViewBag.Total" type="hidden" />
+
+                        <button type="submit" class="btn btn-yellow">Calcular Cambio</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group align-middle">
+                    <h6 class="control-label fw-bold">Cambio</h6>
+                    <div class="div-cambio d-flex justify-content-between align-items-center">
+                        <label id="lbl-cambio" class="control-label h4 mb-0">$ @ViewBag.Cambio</label>
+                        <i class="bi bi-cash-coin icon-sm opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>       
+    </form>
+    <input type="hidden" name="montoRecibido" id="hidden-montoRecibido" value="0" form="form-crearOrden" />
+    <button id="btn-OrdenPagada" type="submit" class="btn btn-primary mt-3" disabled form="form-crearOrden">
+        <i class="bi bi-cash-coin me-2"></i>Orden Pagada
+    </button>
+</div>
+
+<hr />
+
+<div>
+    <a asp-action="Index" class="link-color-primary">
+        <i class="bi bi-arrow-left me-2"></i>
+        Volver a la lista
+    </a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- select -->
+    <script>
+        $(document).ready(function () {
+            $('#buscadorProductos').select2({
+                width: '100%'
+            });
+        });
+    </script>
+
+    <!--botones categorías -->
+    <script>
+        var todasLasOpciones = $('#buscadorProductos option').clone();
+        $('.btn-categoria').click(function () {
+            $('.btn-categoria').removeClass('active');
+            $(this).addClass('active');
+
+            var categoria = $(this).text();
+
+            $('#buscadorProductos').empty();
+
+            todasLasOpciones.each(function () {
+                var categoriaOption = $(this).data('categoria');
+
+                if (categoria === categoriaOption || categoria === "Mostrar Todos") {
+                    $('#buscadorProductos').append($(this).clone());
+                }
+            });
+
+            $('#buscadorProductos').select2('destroy').select2({
+                width: '100%'
+            });
+        });
+    </script>
+
+    <!-- lógica de los botones de cantidad -->
+    <script>
+        $(document).ready(function () {
+            // Botón Restar
+            $('#btn-restar').click(function () {
+                var inputCantidad = $('#input-cantidad');
+                var valorActual = parseInt(inputCantidad.val());
+
+                // Validamos que no bajen de 1 (no podemos vender 0 cafés ni negativos)
+                if (valorActual > 1) {
+                    inputCantidad.val(valorActual - 1);
+                }
+            });
+
+            // Botón Sumar
+            $('#btn-sumar').click(function () {
+                var inputCantidad = $('#input-cantidad');
+                var valorActual = parseInt(inputCantidad.val());
+
+                inputCantidad.val(valorActual + 1);
+            });
+        });
+    </script>
+
+    <!-- Validación y guardado del Nombre -->
+    <script>
+        $(document).ready(function () {
+            var hayProductos = @((ViewBag.Carrito != null && ViewBag.Carrito.Count > 0).ToString().ToLower());
+            var inputNombre = $('#NombreCliente');
+            var btnCrearOrden = $('#btn-crearOrden');
+
+            var nombreGuardado = sessionStorage.getItem('nombreBorrador');
+            if (nombreGuardado) {
+                inputNombre.val(nombreGuardado);
+            }
+
+            function evaluarCondiciones() {
+                var nombre = inputNombre.val().trim();
+
+                sessionStorage.setItem('nombreBorrador', inputNombre.val());
+
+                if (hayProductos === true && nombre !== "") {
+                    btnCrearOrden.prop('disabled', false);
+                } else {
+                    btnCrearOrden.prop('disabled', true);
+                }
+            }
+
+            inputNombre.on('input', evaluarCondiciones);
+
+            evaluarCondiciones();
+        });
+
+        $('#form-crearOrden').submit(function () {
+            sessionStorage.removeItem('nombreBorrador');
+        });
+    </script>
+
+    <!--boton crear orden -->
+    <script>
+        $('#btn-crearOrden').click(function (e) {
+            const divCambio = document.querySelector('#div-cobro');
+            divCambio.removeAttribute("hidden");
+        });
+    </script>
+
+    <!--boton calcular cambio -->
+    <script>
+        $('#form-cobro').submit(function (e) {
+            e.preventDefault();
+            var datos = $(this).serialize();
+
+            $.ajax({
+                url: '/Ordenes/Cambio',
+                type: 'POST',
+                data: datos,
+                success: function (resultado) {
+                    var cambioCalculado = parseFloat(resultado);
+
+                    if(cambioCalculado < 0) {
+                        var faltante = cambioCalculado * (-1);
+                        $('#lbl-cambio')
+                            .text("Aún faltan $" + faltante.toFixed(2) + " por recibir.")
+                            .addClass("txt-orange fs-6");
+                        $('#btn-OrdenPagada').prop("disabled", true);
+                    } else {
+                        $('#lbl-cambio')
+                            .text("$ " + cambioCalculado.toFixed(2))
+                            .removeClass('txt-orange fs-6');
+                        $('#btn-OrdenPagada').prop("disabled", false);
+
+                        var pesos = $('input[name="Dinero"]').val() || "0";
+                        var centavos = $('input[name="Centavos"]').val() || "00";
+                        $('#hidden-montoRecibido').val(pesos + "." + centavos);
+                    }
+                }
+            });
+        });
+    </script>
+}

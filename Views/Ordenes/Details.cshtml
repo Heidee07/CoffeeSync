@@ -1,0 +1,170 @@
+﻿@model CoffeeSync.Models.Orden
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/details.css" />
+}
+
+<div class="txt-color-bg-light m-2">
+    <h1>Detalles</h1>
+    <h6>Visualiza la información completa de la orden seleccionada.</h6>
+</div>
+
+<div class="div-style shadow-sm m-2 p-4" style="border-radius: 20px;">
+
+    <div class="d-flex align-items-center mb-3">
+        <div class="div-icon-sm me-3 d-flex justify-content-center align-items-center" style="background-color: #F8F5F2; border-radius: 50%; width: 45px; height: 45px;">
+            <i class="bi bi-clipboard fs-5 txt-color-bg-light"></i>
+        </div>
+        <h5 class="mb-0 fw-bold txt-color-bg-light">Información de la Orden</h5>
+    </div>
+
+    <div class="row align-items-center mb-4 ps-md-5 txt-color-bg-dark">
+        <div class="col-md-6 d-flex align-items-center mb-3 mb-md-0">
+            <div class="div-icon-xsm me-3 d-flex justify-content-center align-items-center rounded-circle" style="background-color: #F8F5F2; width: 40px; height: 40px;">
+                <i class="bi bi-person"></i>
+            </div>
+            <div>
+                <span class="d-block small fw-bold txt-color-bg-light">Nombre del Cliente</span>
+                <span class="fw-semibold txt-primary">@Html.DisplayFor(model => model.NombreCliente)</span>
+            </div>
+        </div>
+        <div class="col-md-6 d-flex align-items-center">
+            <div class="div-icon-xsm me-3 d-flex justify-content-center align-items-center rounded-circle" style="background-color: #F8F5F2; width: 40px; height: 40px;">
+                <i class="bi bi-calendar"></i>
+            </div>
+            <div>
+                <span class="d-block small fw-bold txt-color-bg-light">Fecha de la Orden</span>
+                <span class="fw-semibold txt-primary">@Html.DisplayFor(model => model.Fecha)</span>
+            </div>
+        </div>
+    </div>
+
+    <hr class="hr2-style mb-4" />
+
+    <div class="d-flex align-items-center mb-3 txt-color-bg-light">
+        <div class="div-icon-sm me-3 d-flex justify-content-center align-items-center" style="background-color: #F8F5F2; border-radius: 50%; width: 45px; height: 45px;">
+            <i class="bi bi-cup-straw fs-5"></i>
+        </div>
+        <h5 class="mb-0 fw-bold">Productos</h5>
+    </div>
+
+    <div class="ps-md-5 pe-md-3 mb-4 table-responsive">
+        <table class="table table-borderless table-striped table-light-primary align-middle mb-0" style="border: 1px solid #E8E4D6; border-radius: 10px; overflow: hidden;">
+            <thead class="text-muted small" style="background-color: #F8F5F2;">
+                <tr class="txt-color-bg-light">
+                    <th class="text-center py-3 fw-bold">Cant</th>
+                    <th class="text-start py-3 fw-bold">Producto</th>
+                    <th class="text-center py-3 fw-bold">Precio Unitario</th>
+                    <th class="text-center py-3 fw-bold">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Detalles)
+                {
+                    <tr>
+                        <td class="text-center fw-bold txt-color-bg-light">@item.Cantidad</td>
+                        <td class="text-start">
+                            @if (item.Producto != null)
+                            {
+                                <div class="d-flex align-items-center py-1">
+                                    <img src="@(string.IsNullOrEmpty(item.Producto.UrlImagen) ? "/images/producto-default.png" : item.Producto.UrlImagen)"
+                                         alt="@item.Producto.Nombre"
+                                         class="rounded-circle shadow-sm me-3"
+                                         style="width: 40px; height: 40px; object-fit: cover; background-color: #F8F5F2;" />
+                                    <span class="fw-semibold txt-color-bg-light">@item.Producto.Nombre</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex align-items-center py-1">
+                                    <div class="rounded-circle shadow-sm me-3 bg-light d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                                        <i class="bi bi-x-circle text-muted"></i>
+                                    </div>
+                                    <span class="text-muted fst-italic">Producto eliminado</span>
+                                </div>
+                            }
+                        </td>
+                        <td class="text-center  txt-color-bg-light opacity-75">$@item.PrecioUnitario.ToString("0.00")</td>
+                        <td class="text-center fw-semibold txt-primary">$@((item.Cantidad * item.PrecioUnitario).ToString("0.00"))</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <hr class="hr2-style mb-4" />
+
+    <div class="row align-items-center mb-4 txt-color-bg-light">
+        <div class="col-md-3 d-flex align-items-center mb-3 mb-md-0">
+            <div class="div-icon-sm me-3 d-flex justify-content-center align-items-center" style="background-color: #F8F5F2; border-radius: 50%; width: 45px; height: 45px;">
+                <i class="bi bi-wallet2 fs-5"></i>
+            </div>
+            <h5 class="mb-0 fw-bold">Detalles del Cobro</h5>
+        </div>
+
+        <div class="col-md-9">
+            @if (ViewBag.Pago != null)
+            {
+                <div class="row align-items-center p-3 rounded-3 border mb-0" style="background-color: #FCFBF8; border-color: #E8E4D6 !important;">
+                    <div class="col-md-4 d-flex align-items-center mb-2 mb-md-0 txt-primary">
+                        <i class="bi bi-cash-stack fs-4 me-3"></i>
+                        <div>
+                            <span class="d-block small">Monto Recibido</span>
+                            <span class="fw-bold">$@ViewBag.Pago.MontoRecibido.ToString("0.00")</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center mb-2 mb-md-0 border-start txt-yellow">
+                        <i class="bi bi-currency-exchange fs-4 me-3"></i>
+                        <div>
+                            <span class="d-block small">Cambio Entregado</span>
+                            <span class="fw-bold">$@ViewBag.Pago.Cambio.ToString("0.00")</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center border-start txt-orange">
+                        <i class="bi bi-clock fs-4 me-3"></i>
+                        <div>
+                            <span class="d-block small">Fecha y Hora de Pago</span>
+                            <span class="fw-bold">@ViewBag.Pago.FechaPago.ToString("dd/MM/yyyy hh:mm tt")</span>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning shadow-sm mb-0">
+                    <i class="bi bi-exclamation-triangle me-2"></i> No hay cobro registrado.
+                </div>
+            }
+        </div>
+    </div>
+
+    <hr class="hr2-style mb-4" />
+
+    <div class="row align-items-center mb-5 txt-color-bg-light">
+        <div class="col-md-3 d-flex align-items-center mb-3 mb-md-0">
+            <div class="div-icon-sm me-3 d-flex justify-content-center align-items-center" style="background-color: #F8F5F2; border-radius: 50%; width: 45px; height: 45px;">
+                <i class="bi bi-currency-dollar fs-5"></i>
+            </div>
+            <h5 class="mb-0 fw-bold">Total de la Orden</h5>
+        </div>
+        <div class="col-md-9">
+            <h3 class="mb-0 fw-bolder" style="color: #6D7B45;">
+                $@Html.DisplayFor(model => model.TotalPagar)
+                <i class="bi bi-stars ms-2" style="color: #6D7B45; font-size: 1.5rem;"></i>
+            </h3>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a asp-action="Index" class="btn btn-outline-yellow me-3">
+            <i class="bi bi-arrow-left me-2"></i> Volver a la lista
+        </a>
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">
+            <i class="bi bi-pencil me-2"></i> Editar Orden
+        </a>
+    </div>
+</div>

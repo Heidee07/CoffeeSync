@@ -1,0 +1,41 @@
+﻿body {
+    background-color: #FAF8F5;
+}
+
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('../images/background-pc.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        z-index: -1;
+    }
+
+.div-style {
+    background-color: white;
+    padding: 1.5rem 1rem 1.5rem 1rem;
+    border-radius: 1rem;
+}
+
+.input-group-text {
+    color: #401208 !important;
+    background-color: #E8E5D2 !important;
+}
+
+
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+        background-position: top center;
+    }
+
+        body::before {
+            background-image: url('../images/background-mobile.png');
+            background-position: center;
+        }
+}

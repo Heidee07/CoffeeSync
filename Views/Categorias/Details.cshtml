@@ -1,0 +1,50 @@
+﻿@model CoffeeSync.Models.Categoria
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/details.css" />
+}
+
+<div class="txt-color-bg-light m-2">
+    <h1>Detalles</h1>
+    <h6>Visualiza la información completa de la categoría seleccionada.</h6>
+</div>
+
+<div class="div-style shadow m-2 p-3 txt-color-bg-light">
+    <div class="d-flex justify-content-start align-items-center mb-3">
+        <div class="div-icon-sm me-2 d-flex justify-content-center">
+            <i class="bi bi-file-earmark-spreadsheet icon-sm"></i>
+        </div>
+        <h4 class="mb-0">Categoría</h4>
+    </div>
+
+    <hr class="hr1-style" />
+
+    <div class="row align-items-center my-2">
+        <dt class="col-sm-3 d-flex align-items-center">
+            <div class="div-icon-xsm me-2 d-flex justify-content-center">
+                <i class="bi bi-card-text icon-xsm"></i>
+            </div>
+            Nombre
+        </dt>
+        <dd class="col-sm-9 mb-0">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+    </div>
+    <hr class="hr2-style" />
+    <div class="mt-4 me-2 d-flex align-items-end flex-column">
+        <div class="mt-auto">
+            <a asp-action="Index" class="btn btn-outline-yellow">
+                <i class="bi bi-arrow-left"></i>
+                Volver a la lista
+            </a>
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary ms-3">
+                <i class="bi bi-pencil"></i>
+                Editar
+            </a>
+        </div>
+    </div>
+</div>

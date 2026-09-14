@@ -1,0 +1,38 @@
+﻿body {
+    background-color: #FAF8F5;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; 
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/background-pc-home.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+.card-CrearOrden {
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto 2rem auto !important;
+}
+
+.card-Opcion {
+    background-color: transparent !important;
+}
+
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+        background-position: top center;
+    }
+
+    body::before {
+        background-image: url('../images/background-mobile-home.png');
+        background-position: center;
+    }
+}

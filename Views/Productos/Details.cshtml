@@ -1,0 +1,120 @@
+﻿@model CoffeeSync.Models.Producto
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/details.css" />
+}
+
+<div class="txt-color-bg-light m-2">
+    <h1>Detalles</h1>
+    <h6>Visualiza la información completa del producto seleccionado.</h6>
+</div>
+
+<div class="div-style shadow m-2 p-3 txt-color-bg-light">
+    <div class="d-flex justify-content-start align-items-center mb-3">
+        <div class="div-icon-sm me-2 d-flex justify-content-center">
+            <i class="bi bi-cup-straw icon-sm"></i>
+        </div>
+        <h4 class="mb-0">Producto</h4>
+    </div>
+
+    <hr class="hr1-style" />
+
+    <div class="row align-items-center my-2">
+        <dt class="col-sm-3 d-flex align-items-center">
+            <div class="div-icon-xsm me-2 d-flex justify-content-center">
+                <i class="bi bi-cup icon-xsm"></i>
+            </div>
+            Nombre
+        </dt>
+        <dd class="col-sm-9 mb-0">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+    </div>
+
+    <hr class="hr2-style" />
+
+    <div class="row align-items-center my-2">
+        <dt class="col-sm-3 d-flex align-items-center">
+            <div class="div-icon-xsm me-2 d-flex justify-content-center">
+                <i class="bi bi-currency-dollar icon-xsm"></i>
+            </div>
+            Precio
+        </dt>
+        <dd class="col-sm-9 mb-0 txt-primary">
+            $@Html.DisplayFor(model => model.Precio)
+        </dd>
+    </div>
+
+    <hr class="hr2-style" />
+
+    <div class="row align-items-center my-2">
+        <dt class="col-sm-3 d-flex align-items-center">
+            <div class="div-icon-xsm me-2 d-flex justify-content-center">
+                <i class="bi bi-check2-circle icon-xsm"></i>
+            </div>
+            Disponible
+        </dt>
+        <dd class="col-sm-9 mb-0">
+            @if (Model.Disponible)
+            {
+                <span class="badge" style="background-color: #6D7B45;">Sí</span>
+            }
+            else
+            {
+                <span class="badge" style="background-color: #9D5817;">No</span>
+            }
+        </dd>
+    </div>
+        
+    <hr class="hr2-style" />
+
+    <div class="row align-items-center my-2">
+        <dt class="col-sm-3 d-flex align-items-center">
+            <div class="div-icon-xsm me-2 d-flex justify-content-center">
+                <i class="bi bi-file-earmark-spreadsheet icon-xsm"></i>
+            </div>
+            Categoría
+        </dt>
+        <dd class="col-sm-9 mb-0">
+            @Html.DisplayFor(model => model.Categoria.Nombre)
+        </dd>
+    </div>
+
+    <hr class="hr2-style" />
+
+    <div class="row align-items-center my-2">
+        <dt class="col-sm-3 d-flex align-items-center">
+            <div class="div-icon-xsm me-2 d-flex justify-content-center">
+                <i class="bi bi-image icon-xsm"></i>
+            </div>
+            Imagen
+        </dt>
+        <dd class="col-sm-9 mb-0">
+            @if (!string.IsNullOrEmpty(Model.UrlImagen))
+            {
+                <div class="me-3">
+                    <img src="@Model.UrlImagen" alt="Imagen actual" style="width: 3.75rem; height: 3.75rem; object-fit: cover;" class="rounded shadow-sm border" />
+                </div>
+            }
+        </dd>        
+    </div>
+    <hr class="hr2-style" />
+    <div class="mt-4 me-2 d-flex align-items-end flex-column">
+        <div class="mt-auto">
+            <a asp-action="Index" class="btn btn-outline-yellow">
+                <i class="bi bi-arrow-left"></i>
+                Volver a la lista
+            </a>
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary ms-3">
+                <i class="bi bi-pencil"></i>
+                Editar
+            </a>
+        </div>
+    </div>
+</div>
+
+

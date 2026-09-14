@@ -1,0 +1,48 @@
+﻿@model CoffeeSync.Models.Categoria
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/edit.css" />
+}
+
+<div class="txt-color-bg-light m-2">
+    <h1>Editar Categoría</h1>
+    <h6>Modifica los datos de la categoría seleccionada.</h6>
+</div>
+
+<div class="row txt-color-bg-light m-2">
+    <div class="col-md-12 div-style shadow">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group mb-3">
+                <label asp-for="Nombre" class="control-label"></label>
+                <div class="input-group mb-3 w-75">
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="bi bi-file-earmark-spreadsheet"></i>
+                    </span>
+                    <input asp-for="Nombre" class="form-control" />
+                </div>
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="alert alert-primary d-flex align-items-center mt-4" role="alert">
+                <i class="bi bi-info-circle-fill me-3"></i>
+                <div>
+                    Asegúrate de revisar los datos antes de guardar los cambios.
+                </div>
+            </div>
+            <div class="form-group text-end d-flex justify-content-end">
+                <a asp-action="Index" class="btn btn-outline-yellow me-5">Cancelar</a>
+
+                <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

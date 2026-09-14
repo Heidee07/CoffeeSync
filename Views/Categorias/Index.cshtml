@@ -1,0 +1,56 @@
+﻿@model IEnumerable<CoffeeSync.Models.Categoria>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/index.css" />
+}
+
+<h1 class="txt-color-bg-light">Categorías</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-lg me-2"></i>
+        Crear Nueva Categoría
+    </a>
+</p>
+
+<div class="shadow div-style">
+    <div class="p-3">
+        <table id="TablaCategorias" class="table table-light-primary table-striped table-hover align-middle mb-0 nowrap tabla-datatable dataTables_wrapper">
+            <thead class="mt-3">
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="txt-color-bg-light">
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-light-primary btn-sm border rounded-3 align-middle me-3" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-light-yellow btn-sm border rounded-3 align-middle me-3" title="Ver">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-light-orange btn-sm border rounded-3 align-middle me-3" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

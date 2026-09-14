@@ -1,0 +1,63 @@
+﻿body {
+    background-color: #FAF8F5;
+}
+
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('../images/background-pc-login.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        z-index: -1;
+    }
+
+.div-style {
+    background-color: white;
+    padding: 1.5rem 1rem 1.5rem 1rem;
+    border-radius: 1rem;
+}
+
+.card-login {
+    border-radius: 1.5rem !important;
+    max-width: 420px;
+    width: 100%;
+    background-color: #FFFFFF;
+}
+
+.logo-circle {
+    width: 80px;
+    height: 80px;
+    background-color: #F8F5F2;
+    border-radius: 50%;
+}
+
+.border-dashed {
+    border-top: 1.5px dashed #D4C9B7;
+    opacity: 0.5;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
+    border-color: #ced4da !important;
+}
+
+.bg-input-icon {
+    background-color: #F8F5F2 !important;
+}
+
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+        background-position: top center;
+    }
+
+        body::before {
+            background-image: url('../images/background-mobile-login.png');
+            background-position: center;
+        }
+}

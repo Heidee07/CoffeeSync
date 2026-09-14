@@ -1,0 +1,59 @@
+﻿@model CoffeeSync.Models.Orden
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Ticket_Orden_@Model.Id</title>
+
+    <link rel="stylesheet" href="~/css/ticket.css" />
+</head>
+<body>
+    <div class="text-center">
+        <h2>CoffeeSync</h2>
+        <p style="margin: 0;">Ticket de Orden #@Model.Id</p>
+        <p style="margin: 0;">Fecha: @Model.Fecha.ToString("dd/MM/yyyy HH:mm")</p>
+        <p style="margin: 0;">Cliente: <strong>@Model.NombreCliente</strong></p>
+    </div>
+
+    <hr />
+
+    <table>
+        <thead>
+            <tr>
+                <th style="text-align:left;">Cant</th>
+                <th style="text-align:left;">Producto</th>
+                <th style="text-align:right;">Importe</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Detalles)
+            {
+                <tr>
+                    <td>@item.Cantidad</td>
+                    <td>@item.Producto.Nombre</td>
+                    <td class="text-right">$@((item.Cantidad * item.PrecioUnitario).ToString("0.00"))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr />
+
+    <h3 class="text-right" style="margin: 5px 0;">Total: $@Model.TotalPagar.ToString("0.00")</h3>
+
+    <p class="text-center" style="margin-top: 20px;">¡Gracias por su preferencia!</p>
+
+    <a href="/Ordenes/Index" class="btn-volver no-print">Volver a Órdenes</a>
+
+    <script>
+        window.onload = function () {
+            window.print();
+        }
+    </script>
+</body>
+</html>

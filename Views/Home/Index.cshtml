@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css"/>
+}
+
+<div class="text-center txt-color-bg-light">
+    <i class="bi bi-cup-hot icon-xsm"></i>
+    <h1 class="display-4">¡Hola!</h1>
+    <p>¿Qué deseas hacer?</p>
+</div>
+
+<div class="card card-CrearOrden border-0 bg-transparent mx-auto">
+    <a class="btn btn-primary d-flex flex-row align-items-center text-start p-3 p-sm-4 w-100" href="/Ordenes/Create">
+        <i class="bi bi-cart-plus-fill" style="font-size: 2.5rem;"></i>
+        <div class="flex-grow-1 mx-3">
+            <h5 class="card-title mb-1">Crear Orden</h5>
+            <p class="card-text mb-0" style="font-size: 0.85rem; line-height: 1.2;">Crear y cobrar una orden nueva.</p>
+        </div>
+        <i class="bi bi-arrow-right-circle-fill fs-3"></i>
+    </a>
+</div>
+
+<div class="row mx-0 d-flex justify-content-center align-items-center ">
+    <div class="col-sm-4 mb-3 mb-sm-0">        
+        <div class="card h-100 card-Opcion position-relative">
+            <a class="btn btn-outline-dark h-100 d-flex flex-column" href="/Ordenes/Index">
+                <i class="bi bi-clipboard mt-2 icon-sm align-self-start" style="padding-left: 16px;"></i>
+                <div class="card-body align-self-start" style="text-align: left;">
+                    <h5 class="card-title">Consultar las órdenes</h5>
+                    <p class="card-text">Ver, agregar, editar y/o borrar órdenes.</p>
+                </div>
+                <div class="position-absolute bottom-0 end-0">
+                    <i class="bi bi-caret-right icon-xsm"></i>
+                </div>
+            </a>                
+        </div>
+    </div>
+    @if (@User.Identity.Name == "admin")
+    {
+        <div class="col-sm-4 mb-3 mb-sm-0">
+            <div class="card h-100 card-Opcion position-relative">
+                <a class="btn btn-outline-orange h-100 d-flex flex-column" href="/Productos/Index">
+                    <i class="bi bi-cup mt-2 icon-sm align-self-start" style="padding-left: 16px;"></i>
+                    <div class="card-body align-self-start" style="text-align: left;">
+                        <h5 class="card-title">Consultar los productos</h5>
+                        <p class="card-text">Ver, agregar, editar y/o borrar productos.</p>
+                    </div>
+                    <div class="position-absolute bottom-0 end-0">
+                        <i class="bi bi-caret-right icon-xsm"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-4 mb-3 mb-sm-0">
+            <div class="card h-100 card-Opcion position-relative">
+                <a class="btn btn-outline-yellow h-100 d-flex flex-column" href="/Categorias/Index">
+                    <i class="bi bi-file-earmark-spreadsheet mt-2 icon-sm align-self-start" style="padding-left: 16px;"></i>
+                    <div class="card-body align-self-start" style="text-align: left;">
+                        <h5 class="card-title">Consultar categorías</h5>
+                        <p class="card-text">Ver, agregar, editar y/o borrar categorías.</p>
+                    </div>
+                    <div class="position-absolute bottom-0 end-0">
+                        <i class="bi bi-caret-right icon-xsm"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }    
+</div>

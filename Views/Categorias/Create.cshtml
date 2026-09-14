@@ -1,0 +1,41 @@
+﻿@model CoffeeSync.Models.Categoria
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/create.css" />
+}
+
+<div class="txt-color-bg-light m-2">
+    <h1>Crear Categoría</h1>
+    <h6>Agrega un nueva categoría.</h6>
+</div>
+
+<div class="row txt-color-bg-light m-2">
+    <div class="col-md-12 div-style shadow">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="Nombre" class="control-label">Nombre</label>
+                <div class="input-group mb-3 w-75">
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="bi bi-file-earmark-spreadsheet"></i>
+                    </span>
+                    <input asp-for="Nombre" class="form-control" />
+                </div>                
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group text-end d-flex justify-content-end">
+                <a asp-action="Index" class="btn btn-outline-yellow me-4">Cancelar</a>
+
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
